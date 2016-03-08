@@ -1,0 +1,9 @@
+{
+  "name": "awesome-test",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "mongoose": "^4.3.7",
+    "passport": "^0.3.2"
+  }
+}
