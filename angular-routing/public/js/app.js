@@ -1,4 +1,4 @@
-angular.module('routerApp', [])
+angular.module('routerApp', ['routerRoutes'])
 
 //Main site controller
 .controller('mainController', function () {
