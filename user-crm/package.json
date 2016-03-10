@@ -1,0 +1,5 @@
+{
+  "name" : "User CRM",
+  "version" : "0.0.10",
+  "main" : "server.js"
+}
