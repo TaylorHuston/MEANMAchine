@@ -7,7 +7,7 @@ var superSecret = config.secret;
 module.exports = function (app, express) {
   var apiRouter = express.Router();
 
-  //Authenticate user
+  //Authenticate user. /api/authenticate
   apiRouter.post('/authenticate', function (req, res) {
     console.log(req.body.username);
 
@@ -51,5 +51,8 @@ module.exports = function (app, express) {
       });
   });
 
+  apiRouter.use(function(req, res, next) {
+    
+  })
 
 }
