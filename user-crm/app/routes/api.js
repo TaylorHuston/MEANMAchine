@@ -16,7 +16,7 @@ module.exports = function (app, express) {
         username: req.body.username
       })
       .select('password')
-      .exec(functio(err, user) {
+      .exec(function (err, user) {
         if (err) {
           throw err;
         }
@@ -60,7 +60,7 @@ module.exports = function (app, express) {
     //Decode token
     if (token) {
 
-      jwy.verify(token, superSecret, function (err decoded) {
+      jwy.verify(token, superSecret, function (err, decoded) {
         if (err) {
           return res.json({
             success: false,
@@ -85,4 +85,108 @@ module.exports = function (app, express) {
     });
   });
 
-}
+
+  //User routes
+  apiRouter.route('/users')
+    //Create user using POST at localhost:8080/api/users
+    .post(function (req, res) {
+      var user = new User();
+      user.name = req.body.name;
+      user.username = req.body.username;
+      user.password = req.body.password;
+
+      user.save(function (err) {
+        if (err) {
+          //Duplicate entry
+          if (err.code == 11000) {
+            return res.json({
+              success: false,
+              message: "A user with that username already exists."
+            });
+          } else {
+            return res.send(err);
+          }
+        }
+
+        res.json({
+          message: "User created."
+        });
+
+      });
+    })
+
+  //Get all users
+  .get(function (req, res) {
+    User.find(function (err, users) {
+      if (err) {
+        res.send(err);
+      }
+
+      res.json(users);
+    });
+  });
+
+  //Get single user
+  apiRouter.route('/users/:user_id')
+    .get(function (req, res) {
+      User.findById(req.params.user_id, function (err, user) {
+        if (err) {
+          res.send(err)
+        }
+
+        res.json(user);
+      });
+    })
+
+  //Update user
+  .put(function (req, res) {
+    User.findById(req.params.user_ud, function (err, user) {
+      if (err) {
+        res.send(err);
+      }
+
+      if (req.body.name) {
+        user.name = req.body.name;
+      }
+
+      if (req.body.username) {
+        user.username = req.body.username;
+      }
+
+      if (req.body.password) {
+        user.password = req.body.password;
+      }
+
+      user.save(function (err) {
+        if (err) {
+          res.send(err);
+        }
+
+        res.json({
+          message: "User updated"
+        });
+      });
+
+    });
+
+  })
+
+  //Delete user
+  .delete(function (req, res) {
+    User.remove({
+      _id: req.params.user_id
+    }, function (err, user) {
+      if (err) {
+        return res.send(err);
+      }
+
+      res.json({
+        message: 'Successfully deleted'
+      });
+    });
+  })
+
+  return apiRouter;
+
+
+};
