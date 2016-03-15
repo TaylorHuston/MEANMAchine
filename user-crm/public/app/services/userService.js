@@ -1,5 +1,6 @@
 angular.module('userService', [])
 
+//Factory to edit users
 .factory('User', function ($http) {
 
   //Create empty object
