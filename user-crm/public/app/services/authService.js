@@ -24,8 +24,18 @@ angular.module('authService', [])
   var authTokenFactory = {};
   
   //Get token
+  authTokenFactory.getToken = function() {
+    return $window.localStorage.getItem('token');
+  }
   
   //Set or clear token
+  authTokenFactory.setToken = function(token) {
+    if (token) {
+      $window.localStorage.setItem('token', token);
+    } else {
+      $window.localStorage.removeItem('token');
+    };
+  };
   
   return authTokenFactory;
   
