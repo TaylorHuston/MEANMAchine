@@ -20,7 +20,7 @@ angular.module('mainCtrl', [])
   vm.doLogin = function () {
     vm.processing = true;
     
-    vm.error = " ";
+    vm.error = "";
 
     Auth.login(vm.loginData.username, vm.loginData.password)
       .success(function (data) {

@@ -35,7 +35,7 @@ module.exports = function (app, express) {
           if (!validPassword) {
             res.json({
               success: false,
-              message: "Authentication failed. Incorrest password."
+              message: "Authentication failed. Incorrect password."
             });
           } else {
             //User is found and password is correct
