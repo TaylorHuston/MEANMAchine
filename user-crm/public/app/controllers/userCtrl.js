@@ -14,5 +14,16 @@ angular.module('userCtrl', ['userService'])
       vm.users = data;
 
     });
+  
+  //Delete a user
+  vm.deleteUser = function(id) {
+    vm.processing = true;
+    
+    User.delete(id)
+      .success(function(data) {
+      
+    })
+    
+  }
 
 })
