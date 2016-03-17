@@ -148,7 +148,7 @@ module.exports = function (app, express) {
 
   //Update user
   .put(function (req, res) {
-    User.findById(req.params.user_ud, function (err, user) {
+    User.findById(req.params.user_id, function (err, user) {
       if (err) {
         res.send(err);
       }
