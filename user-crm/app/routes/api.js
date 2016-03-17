@@ -21,6 +21,8 @@ module.exports = function (app, express) {
           throw err;
         }
 
+        console.log("here");
+
         //No username found
         if (!user) {
           res.json({
@@ -29,7 +31,7 @@ module.exports = function (app, express) {
           });
         } else if (user) {
           //Validate password
-          var valiPassword = user.comparePassword(req.body.password);
+          var validPassword = user.comparePassword(req.body.password);
           if (!validPassword) {
             res.json({
               success: false,
@@ -52,31 +54,37 @@ module.exports = function (app, express) {
   });
 
   apiRouter.use(function (req, res, next) {
-    console.log("Someone just came to the app");
+    console.log('Somebody just came to our app!');
 
-    //Check for presence of token
+    //Check for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-    //Decode token
     if (token) {
 
-      jwy.verify(token, superSecret, function (err, decoded) {
+      //Verify token
+      jwt.verify(token, superSecret, function (err, decoded) {
+
         if (err) {
-          return res.json({
+          res.status(403).send({
             success: false,
-            message: "Failed to authenticate token."
+            message: 'Failed to authenticate token.'
           });
         } else {
-          //No token
-          return res.status(403).send({
-            success: false,
-            message: 'No token provided.'
-          });
+          req.decoded = decoded;
+
+          next();
         }
       });
 
-    }
+    } else {
 
+      //If there is no token
+      res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+      });
+
+    }
   });
 
   apiRouter.get('/', function (req, res) {
