@@ -18,9 +18,11 @@ angular.module('mainCtrl', [])
 
   //Handle login
   vm.doLogin = function () {
+    vm.processing = true;
 
     Auth.login(vm.loginData.username, vm.loginData.password)
       .success(function (data) {
+        vm.processing = false;
 
         // if a user successfully logs in, redirect to users page		
         $location.path('/users');
@@ -32,7 +34,7 @@ angular.module('mainCtrl', [])
   vm.doLogout = function () {
     Auth.logout();
     vm.user = {};
-  
+
 
     $location.path('/login');
   };
