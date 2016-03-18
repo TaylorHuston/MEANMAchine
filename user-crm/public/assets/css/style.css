@@ -6,6 +6,12 @@ header .navbar {
   border-radius: 0;
 }
 
+.show-hide-message.ng-hide-remove {
+  -webkit-animation: zoomIn 0.3s both ease;
+  -moz-animation: zoomIn 0.3s both ease;
+  animation: zoomIn 0.3s both ease;
+}
+
 .spinner {
   -webkit-animation: spin 1s infinite;
   -moz-animation: spin 1s infinite;
